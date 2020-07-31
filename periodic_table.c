@@ -53,7 +53,8 @@ Periodic_Table* read_in_periodic_table(char *filename) {
  * file line. Returns pointer to the Element. */
 Element * create_element_from_line(char *line, char delimiter){
     /* Parse the line to get element information */
-    char **split_result = parse_string(line, &deliminter);
+    int num_items_in_line = 4;
+    char **split_result = parse_string(line, &deliminter, num_items_in_line);
 
     /* Create a new element */
     Element *e = (Element *) malloc(sizeof(Element));
