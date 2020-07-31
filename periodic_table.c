@@ -4,7 +4,7 @@
 #include "helper_functions.h"
 
 /* There are only 118 elements in the periodic table */
-#define MAX_ELEMENTS_IN_PERIODIC_TABLE 118
+#define MAX_ELEMENTS_IN_PERIODIC_TABLE 119
 #define MAX_VALUE_LENGTH 1000
 
 
@@ -15,16 +15,20 @@ struct element {
     char *properties;
 };
 
+/* Table must hold max elements + 1 in order for elements to be kept at 
+ * indicies matching their atomic number */
 struct periodic_table {
-    Element *elements;
+    Element *elements[MAX_ELEMENTS_IN_PERIODIC_TABLE + 1];
 };
 
 
 Periodic_Table* read_in_periodic_table(char *filename) {
     
-    /* Setup Periodic Table to hold contents; + 1 in order to keep elements at indicies
-     * matching their atomic number */
+    /* Setup Periodic Table; initialize all elements to have value of 0 */
     Periodic_Table *pt = (Periodic_Table *) malloc(sizeof(Periodic_Table));
+    for (int i = 0; i < MAX_ELEMENTS_IN_PERIODIC_TABLE + 1; i++) {
+        *(pt->elements[i]) = NULL;
+    }
 
     /* Open the File, reading contents line by line and 
      * placing them into pt->elements */
@@ -78,7 +82,14 @@ void print_element(Element *el) {
     printf("Properties: %s\n", el->classification);
 }
 
+/* Prints out all Elements in Periodic Table */
 void print_periodic_table(Periodic_Table *pt) {
+    
+    printf("PERIODIC TABLE\n");
+    printf("-------------------\n");
+    for (int i = 0; i < MAX_ELEMENTS_IN_PERIODIC_TABLE + 1; i++){
+        print_element(pt->elements[i]);
+    }
 }
 
 void get_information_for_element(Periodic_Table *pt, int atomic_number) {

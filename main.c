@@ -1,10 +1,11 @@
 #include <stdio.h>
 
-int main(void) {
+int main(int argc, char *argv[]) {
     
     printf("-------- CREATE YOUR OWN PERIODIC TABLE -------\n");
     int keep_going = 1;
     int user_selection;
+    char *filename = argv[1]; 
 
     while (keep_going) {
         
@@ -19,7 +20,7 @@ int main(void) {
 
         /* read in the existing periodic table from file; changes
          *  will be in memory until user quits */ 
-        Periodic_Table periodic_table = read_in_periodic_table();
+        Periodic_Table *periodic_table = read_in_periodic_table(filename);
 
         switch(user_selection) {
             case 1:
