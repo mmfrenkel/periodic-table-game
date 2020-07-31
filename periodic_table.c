@@ -1,16 +1,30 @@
 #include <stdio.h>
-#include <stdlib.>
+#include <stdlib.h>
 #include "periodic_table.h"
 #include "helper_functions.h"
 
-#define MAX_ELEMENTS_IN_PERIODIC_TABLE 188
+/* There are only 118 elements in the periodic table */
+#define MAX_ELEMENTS_IN_PERIODIC_TABLE 118
 #define MAX_VALUE_LENGTH 1000
+
+
+struct element {
+    int atomic_number;
+    char *name;
+    char *classification;
+    char *properties;
+};
+
+struct periodic_table {
+    Element *elements;
+};
+
 
 Periodic_Table* read_in_periodic_table(char *filename) {
     
-    /* Setup Periodic Table to hold contents */
-    Periodic_Table *pt;
-    pt->elements = (Element *) malloc(sizeof(Element) * MAX_ELEMENTS_IN_PERIODIC_TABLE);
+    /* Setup Periodic Table to hold contents; + 1 in order to keep elements at indicies
+     * matching their atomic number */
+    Periodic_Table *pt = (Periodic_Table *) malloc(sizeof(Periodic_Table));
 
     /* Open the File, reading contents line by line and 
      * placing them into pt->elements */
@@ -20,21 +34,48 @@ Periodic_Table* read_in_periodic_table(char *filename) {
     fp = fopen(filename, "r");
     if (fp == NULL) {
         printf("Failed to open file; please make sure file exists");
+        free(pt);
         exit(1);
     }
 
     while (fgets(line, MAX_VALUE_LENGTH, fp) != NULL) {
         char delimiter  = ',';
-        char **split_result = parse_string(line = &delimiter);
-        
-        // each item is in the correct location
-        int atomic_number = (int) *split_result[0];
-        Element e = {atomic_number, split_result[1], 
-            split_result[2], split_result[3]};
-        pt->elements[atomic_number] = e;
+        Element *e = create_element_from_line(line, deliminiter);
+        pt->elements[e->atomic_number] = e;
     }
     fclose(fp);
     return pt;
+}
+
+
+/* Creates a new Element in memory, using contents found in a 
+ * file line. Returns pointer to the Element. */
+Element * create_element_from_line(char *line, char delimiter){
+    /* Parse the line to get element information */
+    char **split_result = parse_string(line, &deliminter);
+
+    /* Create a new element */
+    Element *e = (Element *) malloc(sizeof(Element));
+    
+    /* Insert values into element */
+    int atomic_number = atoi(split_result[0]);
+    e->atomic_number = atomic_number;
+    e->name = split_result[1];
+    e->classification = split_result[2];
+    e->properties = split_result[3];
+
+    print_element(e);
+    return e;
+}
+
+
+/* Prints out Specified Element */
+void print_element(Element *el) {
+    printf("\n%s\n", el->name);
+    printf("---------------\n");
+    printf("Atomic Number: %s\n", el->atomic_number);
+    printf("Classification: %s\n", el->classification);
+    printf("Properties: %s\n", el->classification);
 }
 
 void print_periodic_table(Periodic_Table *pt) {
