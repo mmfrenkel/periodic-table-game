@@ -24,11 +24,8 @@ struct periodic_table {
 
 Periodic_Table* read_in_periodic_table(char *filename) {
     
-    /* Setup Periodic Table; initialize all elements to have value of 0 */
+    /* Setup Periodic Table; initialize all elements to have value of NULL */
     Periodic_Table *pt = (Periodic_Table *) malloc(sizeof(Periodic_Table));
-    for (int i = 0; i < MAX_ELEMENTS_IN_PERIODIC_TABLE + 1; i++) {
-        *(pt->elements[i]) = NULL;
-    }
 
     /* Open the File, reading contents line by line and 
      * placing them into pt->elements */
@@ -61,7 +58,8 @@ Element * create_element_from_line(char *line, char delimiter){
     /* Create a new element */
     Element *e = (Element *) malloc(sizeof(Element));
     
-    /* Insert values into element */
+    /* Insert values into element; memory already allocated
+     * on heap via parse_string() function  */
     int atomic_number = atoi(split_result[0]);
     e->atomic_number = atomic_number;
     e->name = split_result[1];
