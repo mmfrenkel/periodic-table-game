@@ -100,7 +100,7 @@ void print_periodic_table(Periodic_Table *pt) {
     for (int i = 0; i < MAX_ELEMENTS_IN_PERIODIC_TABLE + 1; i++){
         
         /* Don't attempt to print elements that don't yet exist */
-        if (pt->elements[i] != NULLi) {
+        if (pt->elements[i] != NULL) {
             print_element(pt->elements[i]);
         }
     }
@@ -145,8 +145,30 @@ void edit_periodic_table(Periodic_Table *pt, int atomic_number) {
 
 void add_new_element_to_periodic_table(Periodic_Table *pt) {
     
+    int atomic_number;
+    char name[MAX_VALUE_LENGTH / NUM_ITEMS IN_ELEMENT];
+    char classification[MAX_VALUE_LENGTH / NUM_ITEMS_IN_ELEMENT];
+    char properties[MAX_VALUE_LENGTH / NUM_ITEMS_IN_ELEMENT];
 
-    if (pt->elements[)
+    printf("Please submit an atomic number: ");
+    scanf("%d", &atomic_number);
+
+    if (atomic_number < 1 || atomic_number > 188) {
+        printf("Sorry, your selection of atomic number is outside the valid range: 0 - 188\n");
+        return;
+    }
+    else if (pt->elements[atomic_number] != NULL) {
+        printf("Sorry, your selection of atomic number is already taken!\n");
+        print_element(pt->elements[atomic_number]);
+    }
+    
+    printf("Please submit a classification: ");
+    scanf("%s", classification);
+    printf("Please submit a description for this element: ");
+    scanf("%s", properties);
+
+    Element *e = create_new_element(atomic_number, name, classification, properties);
+    print_element(e);
 }
 
 void save_periodic_table_to_file(Periodic_Table *pt){
@@ -162,5 +184,4 @@ void free_periodic_table(Periodic_Table *pt) {
     }
     free(pt);
 }   
-
 
