@@ -103,3 +103,15 @@ void add_new_element_to_periodic_table(Periodic_Table *pt, Element e) {
 void save_periodic_table_to_file(Periodic_Table *pt){
 }
 
+/* Free all memory associated with Periodic Table */
+void free_periodic_table(Periodic_Table *pt) {
+    /* get array of pointers to elements to be deleted */
+    Element *ptr_arr[] = pt->elements;
+ 
+    for (int i = 0; i < MAX_ELEMENTS_IN_PERIODIC_TABLE + 1; i++) {
+        free(ptr_arr[i]);
+    }
+    free(pt);
+}   
+
+
