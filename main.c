@@ -34,13 +34,12 @@ int main(int argc, char *argv[]) {
                 add_new_element_to_periodic_table(periodic_table);
                 break;
             case 4:
-                save_periodic_table_to_file(periodic_table);
+                save_periodic_table_to_file(periodic_table, filename);
                 break;
             case 5:
-                save_periodic_table_to_file(periodic_table);
+                save_periodic_table_to_file(periodic_table, filename);
                 printf("Exiting Program");
                 exit(0);
-
         }
     }
     return 0;

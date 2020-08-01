@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "periodic_table.h"
 #include "helper_functions.h"
 
 /* There are only 118 elements in the periodic table */
-#define MAX_ELEMENTS_IN_PERIODIC_TABLE 119
+#define MAX_ELEMENTS_IN_PERIODIC_TABLE 118
 #define MAX_VALUE_LENGTH 1000
 #define NUM_ITEMS_IN_ELEMENT 4
 
@@ -143,6 +144,7 @@ void edit_periodic_table(Periodic_Table *pt, int atomic_number) {
 
 }
 
+/* Function used to add new element to periodic table */
 void add_new_element_to_periodic_table(Periodic_Table *pt) {
     
     int atomic_number;
@@ -160,6 +162,7 @@ void add_new_element_to_periodic_table(Periodic_Table *pt) {
     else if (pt->elements[atomic_number] != NULL) {
         printf("Sorry, your selection of atomic number is already taken!\n");
         print_element(pt->elements[atomic_number]);
+        return;
     }
     
     printf("Please submit a classification: ");
@@ -168,10 +171,21 @@ void add_new_element_to_periodic_table(Periodic_Table *pt) {
     scanf("%s", properties);
 
     Element *e = create_new_element(atomic_number, name, classification, properties);
-    print_element(e);
+    pt->elements[atomic_number] = e;
 }
 
-void save_periodic_table_to_file(Periodic_Table *pt){
+/* Saves periodic table to a file, maintaining atomic_number order. Replaces old file */
+void save_periodic_table_to_file(Periodic_Table *pt, char *filename){
+    
+    FILE *fp = fopen(filename, "w");
+
+    Element *elements = pt->elements;
+    for (int i = 1, i < MAX_ELEMENTS_IN_PERIODIC_TABLE + 1; i++) {
+        Element *e = elements[i];
+        fprintf(fp, "%d,%s,%s,%s", 
+                e->atomic_number, e->name, e->classification, e->properties);
+    }
+    fclose(fp);
 }
 
 /* Free all memory associated with Periodic Table */
