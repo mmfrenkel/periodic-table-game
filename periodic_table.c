@@ -57,7 +57,7 @@ Periodic_Table* read_in_periodic_table(char *filename) {
  * file line. Returns pointer to the Element. */
 Element * create_element_from_line(char *line, char *delimiter){
     /* Parse the line to get element information */
-    char **split_result = parse_string(line, deliminter, NUM_ITEMS_IN_ELEMENT);
+    char **split_result = parse_string(line, delimiter, NUM_ITEMS_IN_ELEMENT);
 
     /* Create a new element */
     Element *e = create_new_element(atoi(split_result[0]), split_result[1], 
@@ -88,7 +88,7 @@ Element * create_new_element(int atomic_number, char *name, char *classification
 void print_element(Element *el) {
     printf("\n%s\n", el->name);
     printf("---------------\n");
-    printf("Atomic Number: %s\n", el->atomic_number);
+    printf("Atomic Number: %d\n", el->atomic_number);
     printf("Classification: %s\n", el->classification);
     printf("Properties: %s\n", el->properties);
 }
@@ -150,7 +150,7 @@ void edit_periodic_table(Periodic_Table *pt, int atomic_number) {
 void add_new_element_to_periodic_table(Periodic_Table *pt) {
     
     int atomic_number;
-    char name[MAX_VALUE_LENGTH / NUM_ITEMS IN_ELEMENT];
+    char name[MAX_VALUE_LENGTH / NUM_ITEMS_IN_ELEMENT];
     char classification[MAX_VALUE_LENGTH / NUM_ITEMS_IN_ELEMENT];
     char properties[MAX_VALUE_LENGTH / NUM_ITEMS_IN_ELEMENT];
 
@@ -182,9 +182,9 @@ void save_periodic_table_to_file(Periodic_Table *pt, char *filename){
     Element *elements = pt->elements;
     int i; 
 
-    for (i = 1, i < MAX_ELEMENTS_IN_PERIODIC_TABLE + 1; i++) {
-        if (elements[i]) {
-            Element *e = elements[i];
+    for (i = 1; i < MAX_ELEMENTS_IN_PERIODIC_TABLE + 1; i++) {
+        if (elements[i] != NULL) {
+            Element *e = &elements[i];
             fprintf(fp, "%d,%s,%s,%s", e->atomic_number, e->name, e->classification, e->properties);
         }
     }
