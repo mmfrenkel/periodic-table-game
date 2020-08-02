@@ -7,7 +7,7 @@ int main(int argc, char *argv[]) {
     int user_selection;
     char *filename = argv[1]; 
 
-    while (keep_going) {
+    while(keep_going) {
         
         printf("Please select an option from below:\n");
         printf("  1. See All Saved Elements\n");
@@ -38,10 +38,12 @@ int main(int argc, char *argv[]) {
                 break;
             case 5:
                 save_periodic_table_to_file(periodic_table, filename);
-                printf("Exiting Program");
-                exit(0);
+                keep_going = 0;
+                break;
         }
     }
+    printf("Exiting Program...");
+    free_periodic_table(periodic_table);
     return 0;
 }
 

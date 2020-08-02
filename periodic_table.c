@@ -176,14 +176,14 @@ void add_new_element_to_periodic_table(Periodic_Table *pt) {
 
 /* Saves periodic table to a file, maintaining atomic_number order. Replaces old file */
 void save_periodic_table_to_file(Periodic_Table *pt, char *filename){
-    
     FILE *fp = fopen(filename, "w");
 
     Element *elements = pt->elements;
     for (int i = 1, i < MAX_ELEMENTS_IN_PERIODIC_TABLE + 1; i++) {
-        Element *e = elements[i];
-        fprintf(fp, "%d,%s,%s,%s", 
-                e->atomic_number, e->name, e->classification, e->properties);
+        if (elements[i]) {
+            Element *e = elements[i];
+            fprintf(fp, "%d,%s,%s,%s", e->atomic_number, e->name, e->classification, e->properties);
+        }
     }
     fclose(fp);
 }
