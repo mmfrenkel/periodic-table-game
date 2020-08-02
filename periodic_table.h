@@ -17,7 +17,7 @@ void get_information_for_element(Periodic_Table *pt, int atomic_number);
 
 void edit_periodic_table(Periodic_Table *pt, int atomic_number);
 
-void add_new_element_to_periodic_table(Periodic_Table *pt, Element e);
+void add_new_element_to_periodic_table(Periodic_Table *pt);
 
 void save_periodic_table_to_file(Periodic_Table *pt, char *filename);
 

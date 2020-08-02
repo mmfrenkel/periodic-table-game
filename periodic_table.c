@@ -44,8 +44,8 @@ Periodic_Table* read_in_periodic_table(char *filename) {
     }
 
     while (fgets(line, MAX_VALUE_LENGTH, fp) != NULL) {
-        char delimiter  = ',';
-        Element *e = create_element_from_line(line, deliminiter);
+        char delimiter[]  = {','};
+        Element *e = create_element_from_line(line, delimiter);
         pt->elements[e->atomic_number] = e;
     }
     fclose(fp);
@@ -55,9 +55,9 @@ Periodic_Table* read_in_periodic_table(char *filename) {
 
 /* Creates a new Element in memory, using contents found in a 
  * file line. Returns pointer to the Element. */
-Element * create_element_from_line(char *line, char delimiter){
+Element * create_element_from_line(char *line, char *delimiter){
     /* Parse the line to get element information */
-    char **split_result = parse_string(line, &deliminter, NUM_ITEMS_IN_ELEMENT);
+    char **split_result = parse_string(line, deliminter, NUM_ITEMS_IN_ELEMENT);
 
     /* Create a new element */
     Element *e = create_new_element(atoi(split_result[0]), split_result[1], 
@@ -98,7 +98,9 @@ void print_periodic_table(Periodic_Table *pt) {
     
     printf("PERIODIC TABLE\n");
     printf("-------------------\n");
-    for (int i = 0; i < MAX_ELEMENTS_IN_PERIODIC_TABLE + 1; i++){
+
+    int i;
+    for (i = 0; i < MAX_ELEMENTS_IN_PERIODIC_TABLE + 1; i++){
         
         /* Don't attempt to print elements that don't yet exist */
         if (pt->elements[i] != NULL) {
@@ -130,15 +132,15 @@ void edit_periodic_table(Periodic_Table *pt, int atomic_number) {
     switch(user_selection) {
         case 1:
             printf("Provide New Name For Element: ");
-            scanf("%s", &user_submission);
+            scanf("%s", user_submission);
             element_ptr->name = user_submission;
         case 2:
             printf("Provide New Classification For Element: ");
-            scanf("%s", &user_submission);
+            scanf("%s", user_submission);
             element_ptr->classification = user_submission;
         case 3:
             printf("Provide New Properties Description for Element: ");
-            scanf("%s", &user_submission);
+            scanf("%s", user_submission);
             element_ptr->properties = user_submission;
     }
 
@@ -177,9 +179,10 @@ void add_new_element_to_periodic_table(Periodic_Table *pt) {
 /* Saves periodic table to a file, maintaining atomic_number order. Replaces old file */
 void save_periodic_table_to_file(Periodic_Table *pt, char *filename){
     FILE *fp = fopen(filename, "w");
-
     Element *elements = pt->elements;
-    for (int i = 1, i < MAX_ELEMENTS_IN_PERIODIC_TABLE + 1; i++) {
+    int i; 
+
+    for (i = 1, i < MAX_ELEMENTS_IN_PERIODIC_TABLE + 1; i++) {
         if (elements[i]) {
             Element *e = elements[i];
             fprintf(fp, "%d,%s,%s,%s", e->atomic_number, e->name, e->classification, e->properties);
@@ -193,7 +196,8 @@ void free_periodic_table(Periodic_Table *pt) {
     /* get array of pointers to elements to be deleted */
     Element *ptr_arr[] = pt->elements;
  
-    for (int i = 0; i < MAX_ELEMENTS_IN_PERIODIC_TABLE + 1; i++) {
+    int i;
+    for (i = 0; i < MAX_ELEMENTS_IN_PERIODIC_TABLE + 1; i++) {
         free(ptr_arr[i]);
     }
     free(pt);

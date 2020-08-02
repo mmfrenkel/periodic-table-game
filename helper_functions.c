@@ -14,7 +14,7 @@ char** parse_string(char *string, char *deliminter, int max_results) {
     char *token = strtok(string, ",");
     while (token != NULL && i < max_results) {
         /* or could use strdup(token); */
-        to_return[current_index] = malloc(sizeof(char) * strlen(token)) ;
+        to_return[i] = malloc(sizeof(char) * strlen(token)) ;
         strcpy(to_return[i++], token);
         token = strtok(NULL, " ");
     }
