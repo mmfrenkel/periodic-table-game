@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include "periodic_table.h"
 
 int main(int argc, char *argv[]) {
     
@@ -7,21 +8,20 @@ int main(int argc, char *argv[]) {
     int user_selection;
     char *filename = argv[1]; 
 
+    /* read in the existing periodic table from file; changes
+     *  will be in memory until user quits */ 
+    Periodic_Table *periodic_table = read_in_periodic_table(filename);
+    
     while(keep_going) {
         
         printf("Please select an option from below:\n");
         printf("  1. See All Saved Elements\n");
         printf("  2. Edit Content of Element\n");
-        printf("  3. Add A New Element, by Atomic Number"\n);
+        printf("  3. Add A New Element, by Atomic Number\n");
         printf("  4. Save Edits to File\n");
         printf("  5. Exit Program\n");
 
         scanf("%d", &user_selection);
-
-        /* read in the existing periodic table from file; changes
-         *  will be in memory until user quits */ 
-        Periodic_Table *periodic_table = read_in_periodic_table(filename);
-
         switch(user_selection) {
             case 1:
                 print_periodic_table(periodic_table);

@@ -116,7 +116,11 @@ void get_information_for_element(Periodic_Table *pt, int atomic_number) {
 }
 
 /* Edit Aspect of Periodic Table Element, by atomic number */
-void edit_periodic_table(Periodic_Table *pt, int atomic_number) {
+void edit_periodic_table(Periodic_Table *pt) {
+    /* Ask for user input */
+    printf("Please provide the atomic number of the element to edit: ");
+    int atomic_number;
+    scanf("%d", &atomic_number);
     Element *element_ptr = pt->elements[atomic_number];
     
     printf("Select the action you would like:\n");
@@ -179,12 +183,12 @@ void add_new_element_to_periodic_table(Periodic_Table *pt) {
 /* Saves periodic table to a file, maintaining atomic_number order. Replaces old file */
 void save_periodic_table_to_file(Periodic_Table *pt, char *filename){
     FILE *fp = fopen(filename, "w");
-    Element *elements = pt->elements;
+    Element **elements = pt->elements;
     int i; 
 
     for (i = 1; i < MAX_ELEMENTS_IN_PERIODIC_TABLE + 1; i++) {
         if (elements[i] != NULL) {
-            Element *e = &elements[i];
+            Element *e = elements[i];
             fprintf(fp, "%d,%s,%s,%s", e->atomic_number, e->name, e->classification, e->properties);
         }
     }
@@ -194,7 +198,7 @@ void save_periodic_table_to_file(Periodic_Table *pt, char *filename){
 /* Free all memory associated with Periodic Table */
 void free_periodic_table(Periodic_Table *pt) {
     /* get array of pointers to elements to be deleted */
-    Element *ptr_arr[] = pt->elements;
+    Element **ptr_arr = pt->elements;
  
     int i;
     for (i = 0; i < MAX_ELEMENTS_IN_PERIODIC_TABLE + 1; i++) {
