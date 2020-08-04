@@ -3,7 +3,7 @@
 
 int main(int argc, char *argv[]) {
     
-    printf("-------- CREATE YOUR OWN PERIODIC TABLE -------\n");
+    printf("\n-------*- PERIODIC TABLE GAME -*------\n");
     int keep_going = 1;
     int user_selection;
     char *filename = argv[1]; 
@@ -42,7 +42,7 @@ int main(int argc, char *argv[]) {
                 break;
         }
     }
-    printf("Exiting Program...");
+    printf("Exiting Program...\n");
     free_periodic_table(periodic_table);
     return 0;
 }

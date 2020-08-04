@@ -44,9 +44,12 @@ Periodic_Table* read_in_periodic_table(char *filename) {
     }
 
     while (fgets(line, MAX_VALUE_LENGTH, fp) != NULL) {
-        char delimiter = ',';
-        Element *e = create_element_from_line(line, delimiter);
-        pt->elements[e->atomic_number] = e;
+        if (!is_empty(line)) {
+            printf("LINE: %s", line);
+            char delimiter = ',';
+            Element *e = create_element_from_line(line, delimiter);
+            pt->elements[e->atomic_number] = e;
+        }
     }
     fclose(fp);
     return pt;

@@ -9,5 +9,5 @@ periodic_table.so: periodic_table.c periodic_table.h
 	gcc -std=c11 -Wall -fmax-errors=1- -Wextra -c periodic_table.c -o periodic_table.so
 
 launch: periodic_table_game
-	./periodic_table_game
+	./periodic_table_game elements.txt
 
