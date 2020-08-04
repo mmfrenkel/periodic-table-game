@@ -14,12 +14,15 @@ int main(int argc, char *argv[]) {
     
     while(keep_going) {
         
+        printf("\n----------------------------------------------\n");
         printf("Please select an option from below:\n");
-        printf("  1. See All Saved Elements\n");
-        printf("  2. Edit Content of Element\n");
-        printf("  3. Add A New Element, by Atomic Number\n");
-        printf("  4. Save Edits to File\n");
-        printf("  5. Exit Program\n");
+        printf("*---------------------------------*\n");
+        printf(" 1. See All Saved Elements\n");
+        printf(" 2. Edit Content of Element\n");
+        printf(" 3. Add A New Element, by Atomic Number\n");
+        printf(" 4. Save Edits to File\n");
+        printf(" 5. Exit Program\n");
+        printf("----------------------------------------------\n");
 
         scanf("%d", &user_selection);
         switch(user_selection) {

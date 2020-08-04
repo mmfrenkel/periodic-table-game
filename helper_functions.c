@@ -24,6 +24,7 @@ char** parse_string(char *string, char delimiter, int max_results) {
  
 /* Determines if a string is just whitespace */
 int is_empty(char *s) {
+    printf("%s", s);
     while (*s != '\0') {
         if (!isspace((unsigned char) *s)) {
             return 0;
