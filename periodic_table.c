@@ -105,7 +105,6 @@ void print_periodic_table(Periodic_Table *pt) {
 
     int i;
     for (i = 1; i < MAX_ELEMENTS_IN_PERIODIC_TABLE + 1; i++){
-        
         /* Don't attempt to print elements that don't yet exist */
         if (pt->elements[i] != NULL) {
             print_element(pt->elements[i]);
@@ -125,7 +124,8 @@ void edit_periodic_table(Periodic_Table *pt) {
     /* Ask for user input */
     printf("Please provide the atomic number of the element to edit: ");
     int atomic_number;
-    scanf("%d\n", &atomic_number);
+    scanf("%d", &atomic_number);
+
     Element *element_ptr = pt->elements[atomic_number];
     printf("You selected:\n");
     print_element(element_ptr);
@@ -163,15 +163,12 @@ void edit_periodic_table(Periodic_Table *pt) {
 /* Function used to add new element to periodic table */
 void add_new_element_to_periodic_table(Periodic_Table *pt) {
 
-    printf("Please submit an atomic number:\n");
+    printf("Please submit an atomic number: ");
     char atomic_value[BUFFER_INPUT];
+    scanf("\n"); /* TO DO -- Remove This */
     fgets(atomic_value, BUFFER_INPUT, stdin);
+    int atomic_number = strtol(atomic_value, NULL, 10);
 
-    if(!is_valid_numeric_submission(atomic_value)) {
-        printf("Sorry, only valid atomic numbers are accepted (0 - %d)", MAX_ELEMENTS_IN_PERIODIC_TABLE);
-    }   
-
-    int atomic_number = atoi(atomic_value);
     if (atomic_number < 1 || atomic_number > 188) {
         printf("Sorry, your selection of atomic number is outside the valid range: 0 - 188\n");
         return;
@@ -186,14 +183,14 @@ void add_new_element_to_periodic_table(Periodic_Table *pt) {
     char classification[BUFFER_INPUT]; 
     char properties[BUFFER_INPUT];
     
-    printf("Please submit a name:\n");
+    printf("Please submit a name: ");
     fgets(name, BUFFER_INPUT, stdin);
     
-    printf("Please submit a classification:\n");
-    scanf("%s\n", classification);
+    printf("Please submit a classification: ");
+    fgets(classification, BUFFER_INPUT, stdin);
     
-    printf("Please submit a description for this element:\n");
-    scanf("%s\n", properties);
+    printf("Please submit a description for this element: ");
+    fgets(properties, BUFFER_INPUT, stdin);
 
     Element *e = create_new_element(atomic_number, name, classification, properties);
     pt->elements[atomic_number] = e;

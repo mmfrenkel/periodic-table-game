@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "periodic_table.h"
 #include "helper_functions.h"
 
@@ -11,7 +12,6 @@ int main(int argc, char *argv[]) {
 
     int keep_going = 1;
     char user_submission[USER_SUBMISSION_SIZE];
-    int user_selection;
     char *filename = argv[1]; 
 
     /* read in the existing periodic table from file; changes
@@ -31,12 +31,8 @@ int main(int argc, char *argv[]) {
         
         scanf("\n"); /* To Do: Solve Need for This */
         fgets(user_submission, USER_SUBMISSION_SIZE, stdin);
-        if (!is_valid_numeric_submission(user_submission)) {
-            printf("Please provide a value numeric submission (1-5)\n");
-            continue;
-        }
-
-        user_selection = atoi(user_submission);
+        int user_selection = strtol(user_submission, NULL, 10);
+       
         switch(user_selection) {
             case 1:
                 print_periodic_table(periodic_table);
