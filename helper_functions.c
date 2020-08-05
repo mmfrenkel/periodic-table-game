@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <ctype.h>
 
 
 /* Takes a string (array of chars) and a deliminiter (single char)
@@ -34,3 +35,14 @@ int is_empty(char *s) {
     return 1;
 }
 
+/* Determines if a string is actually a valid sequence of numbers,
+ * i.e., the string represents an integer */
+int is_valid_numeric_submission(char *user_submission){
+    int i;
+    for (i = 0; i < (int) strlen(user_submission); i++) {
+        if (!isdigit(user_submission[i])) {
+            return 0;
+        }
+    }
+    return 1;
+}

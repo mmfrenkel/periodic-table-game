@@ -1,10 +1,14 @@
 #include <stdio.h>
 #include "periodic_table.h"
+#include "helper_functions.h"
+
+#define USER_SUBMISSION_SIZE 1
 
 int main(int argc, char *argv[]) {
     
     printf("\n-------*- PERIODIC TABLE GAME -*------\n");
     int keep_going = 1;
+    char user_submission[USER_SUBMISSION_SIZE];
     int user_selection;
     char *filename = argv[1]; 
 
@@ -13,7 +17,6 @@ int main(int argc, char *argv[]) {
     Periodic_Table *periodic_table = read_in_periodic_table(filename);
     
     while(keep_going) {
-        
         printf("\n----------------------------------------------\n");
         printf("Please select an option from below:\n");
         printf("*---------------------------------*\n");
@@ -24,7 +27,14 @@ int main(int argc, char *argv[]) {
         printf(" 5. Exit Program\n");
         printf("----------------------------------------------\n");
 
-        scanf("%d", &user_selection);
+        scanf("\n");
+        fgets(user_submission, USER_SUBMISSION_SIZE, stdin);
+        if (!is_valid_numeric_submission(user_submission)) {
+            printf("Please provide a value numeric submission (1-5)\n");
+            continue;
+        }
+
+        user_selection = atoi(user_submission);
         switch(user_selection) {
             case 1:
                 print_periodic_table(periodic_table);

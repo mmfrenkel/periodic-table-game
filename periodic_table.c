@@ -8,6 +8,7 @@
 #define MAX_ELEMENTS_IN_PERIODIC_TABLE 118
 #define MAX_VALUE_LENGTH 1000
 #define NUM_ITEMS_IN_ELEMENT 4
+#define BUFFER_INPUT 200
 
 struct element {
     int atomic_number;
@@ -161,15 +162,16 @@ void edit_periodic_table(Periodic_Table *pt) {
 
 /* Function used to add new element to periodic table */
 void add_new_element_to_periodic_table(Periodic_Table *pt) {
-    
-    int atomic_number;
-    char name[MAX_VALUE_LENGTH / NUM_ITEMS_IN_ELEMENT];
-    char classification[MAX_VALUE_LENGTH / NUM_ITEMS_IN_ELEMENT];
-    char properties[MAX_VALUE_LENGTH / NUM_ITEMS_IN_ELEMENT];
 
-    printf("Please submit an atomic number: ");
-    scanf("%d", &atomic_number);
+    printf("Please submit an atomic number:\n");
+    char atomic_value[BUFFER_INPUT];
+    fgets(atomic_value, BUFFER_INPUT, stdin);
 
+    if(!is_valid_numeric_submission(atomic_value)) {
+        printf("Sorry, only valid atomic numbers are accepted (0 - %d)", MAX_ELEMENTS_IN_PERIODIC_TABLE);
+    }   
+
+    int atomic_number = atoi(atomic_value);
     if (atomic_number < 1 || atomic_number > 188) {
         printf("Sorry, your selection of atomic number is outside the valid range: 0 - 188\n");
         return;
@@ -180,18 +182,21 @@ void add_new_element_to_periodic_table(Periodic_Table *pt) {
         return;
     }
     
-    printf("Please submit a name: ");
-    scanf("%s", name);
-    printf("Please submit a classification: ");
+    char name[BUFFER_INPUT]; 
+    char classification[BUFFER_INPUT]; 
+    char properties[BUFFER_INPUT];
+    
+    printf("Please submit a name:\n");
+    fgets(name, BUFFER_INPUT, stdin);
+    
+    printf("Please submit a classification:\n");
     scanf("%s", classification);
-    printf("Please submit a description for this element: ");
+    
+    printf("Please submit a description for this element:\n");
     scanf("%s", properties);
 
-    printf("You submitted: %s, %s, %s", name, classification, properties);
     Element *e = create_new_element(atomic_number, name, classification, properties);
-    print_element(e);
     pt->elements[atomic_number] = e;
-    print_periodic_table(pt);
 }
 
 /* Saves periodic table to a file, maintaining atomic_number order. Replaces old file */
@@ -203,7 +208,7 @@ void save_periodic_table_to_file(Periodic_Table *pt, char *filename){
     for (i = 1; i < MAX_ELEMENTS_IN_PERIODIC_TABLE + 1; i++) {
         if (elements[i] != NULL) {
             Element *e = elements[i];
-            fprintf(fp, "%d,%s,%s,%s", e->atomic_number, e->name, e->classification, e->properties);
+            fprintf(fp, "%d,%s,%s,%s\n", e->atomic_number, e->name, e->classification, e->properties);
         }
     }
     fclose(fp);
