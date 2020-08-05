@@ -1,1 +1,2 @@
-1,Hydrogen,Gas,Most Abundant Element in Universe
+1,HydroMAX,Gaseous,Most Abundant Element in Universe
+3,Helium,Gas,Valence

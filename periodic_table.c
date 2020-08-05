@@ -32,7 +32,8 @@ Periodic_Table* read_in_periodic_table(char *filename) {
         pt->elements[i] = NULL;    
     }
 
-    /* Open the File, reading contents line by line and * placing them into pt->elements */
+    /* Open the File, reading contents line by line and * placing them 
+     * into pt->elements */
     FILE *fp;
     char line[MAX_VALUE_LENGTH];
 
@@ -57,7 +58,7 @@ Periodic_Table* read_in_periodic_table(char *filename) {
 
 /* Creates a new Element in memory, using contents found in a 
  * file line. Returns pointer to the Element. */
-Element * create_element_from_line(char *line, char *delimiter){
+Element * create_element_from_line(char *line, char delimiter){
     /* Parse the line to get element information */
     char **split_result = parse_string(line, delimiter, NUM_ITEMS_IN_ELEMENT);
 
@@ -74,13 +75,13 @@ Element * create_new_element(int atomic_number, char *name, char *classification
     e->atomic_number = atomic_number;
     
     e->name = (char *) malloc(sizeof(char) * strlen(name));
-    e->name = name;
+    strcpy(e->name, name);
 
     e->classification = (char *) malloc(sizeof(char) * strlen(classification));
-    e->classification = classification;
+    strcpy(e->classification, classification);
 
     e->properties = (char *) malloc(sizeof(char) * strlen(properties));
-    e->properties = properties;
+    strcpy(e->properties, properties);
 
     return e;
 }
@@ -102,7 +103,7 @@ void print_periodic_table(Periodic_Table *pt) {
     printf("-------------------\n");
 
     int i;
-    for (i = 0; i < MAX_ELEMENTS_IN_PERIODIC_TABLE + 1; i++){
+    for (i = 1; i < MAX_ELEMENTS_IN_PERIODIC_TABLE + 1; i++){
         
         /* Don't attempt to print elements that don't yet exist */
         if (pt->elements[i] != NULL) {
@@ -119,20 +120,24 @@ void get_information_for_element(Periodic_Table *pt, int atomic_number) {
 
 /* Edit Aspect of Periodic Table Element, by atomic number */
 void edit_periodic_table(Periodic_Table *pt) {
+
     /* Ask for user input */
     printf("Please provide the atomic number of the element to edit: ");
     int atomic_number;
     scanf("%d", &atomic_number);
     Element *element_ptr = pt->elements[atomic_number];
+    printf("You selected:\n");
+    print_element(element_ptr);
     
-    printf("Select the action you would like:\n");
+    printf("The following actions are available:\n");
     printf(" (1) Edit Name\n");
     printf(" (2) Edit Classification\n");
     printf(" (3) Edit Properties\n");
     printf(" (4) Continue without Editing\n");
-
+    
+    printf("Choose your option (1-4): ");
     int user_selection; 
-    char user_submission[MAX_VALUE_LENGTH / NUM_ITEMS_IN_ELEMENT];
+    char *user_submission = (char *) malloc((MAX_VALUE_LENGTH / NUM_ITEMS_IN_ELEMENT) * sizeof(char));
     scanf("%d", &user_selection);
 
     switch(user_selection) {
@@ -140,16 +145,18 @@ void edit_periodic_table(Periodic_Table *pt) {
             printf("Provide New Name For Element: ");
             scanf("%s", user_submission);
             element_ptr->name = user_submission;
+            break;
         case 2:
             printf("Provide New Classification For Element: ");
             scanf("%s", user_submission);
             element_ptr->classification = user_submission;
+            break;
         case 3:
             printf("Provide New Properties Description for Element: ");
             scanf("%s", user_submission);
             element_ptr->properties = user_submission;
-    }
-
+            break;
+    }   
 }
 
 /* Function used to add new element to periodic table */
@@ -173,13 +180,18 @@ void add_new_element_to_periodic_table(Periodic_Table *pt) {
         return;
     }
     
+    printf("Please submit a name: ");
+    scanf("%s", name);
     printf("Please submit a classification: ");
     scanf("%s", classification);
     printf("Please submit a description for this element: ");
     scanf("%s", properties);
 
+    printf("You submitted: %s, %s, %s", name, classification, properties);
     Element *e = create_new_element(atomic_number, name, classification, properties);
+    print_element(e);
     pt->elements[atomic_number] = e;
+    print_periodic_table(pt);
 }
 
 /* Saves periodic table to a file, maintaining atomic_number order. Replaces old file */
