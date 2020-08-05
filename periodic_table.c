@@ -125,7 +125,7 @@ void edit_periodic_table(Periodic_Table *pt) {
     /* Ask for user input */
     printf("Please provide the atomic number of the element to edit: ");
     int atomic_number;
-    scanf("%d", &atomic_number);
+    scanf("%d\n", &atomic_number);
     Element *element_ptr = pt->elements[atomic_number];
     printf("You selected:\n");
     print_element(element_ptr);
@@ -139,22 +139,22 @@ void edit_periodic_table(Periodic_Table *pt) {
     printf("Choose your option (1-4): ");
     int user_selection; 
     char *user_submission = (char *) malloc((MAX_VALUE_LENGTH / NUM_ITEMS_IN_ELEMENT) * sizeof(char));
-    scanf("%d", &user_selection);
+    scanf("%d\n", &user_selection);
 
     switch(user_selection) {
         case 1:
             printf("Provide New Name For Element: ");
-            scanf("%s", user_submission);
+            scanf("%s\n", user_submission);
             element_ptr->name = user_submission;
             break;
         case 2:
             printf("Provide New Classification For Element: ");
-            scanf("%s", user_submission);
+            scanf("%s\n", user_submission);
             element_ptr->classification = user_submission;
             break;
         case 3:
             printf("Provide New Properties Description for Element: ");
-            scanf("%s", user_submission);
+            scanf("%s\n", user_submission);
             element_ptr->properties = user_submission;
             break;
     }   
@@ -190,10 +190,10 @@ void add_new_element_to_periodic_table(Periodic_Table *pt) {
     fgets(name, BUFFER_INPUT, stdin);
     
     printf("Please submit a classification:\n");
-    scanf("%s", classification);
+    scanf("%s\n", classification);
     
     printf("Please submit a description for this element:\n");
-    scanf("%s", properties);
+    scanf("%s\n", properties);
 
     Element *e = create_new_element(atomic_number, name, classification, properties);
     pt->elements[atomic_number] = e;

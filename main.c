@@ -2,11 +2,13 @@
 #include "periodic_table.h"
 #include "helper_functions.h"
 
-#define USER_SUBMISSION_SIZE 1
+/* User should provide 1 item; second item should be \n */
+#define USER_SUBMISSION_SIZE 2
 
 int main(int argc, char *argv[]) {
-    
+
     printf("\n-------*- PERIODIC TABLE GAME -*------\n");
+
     int keep_going = 1;
     char user_submission[USER_SUBMISSION_SIZE];
     int user_selection;
@@ -15,7 +17,7 @@ int main(int argc, char *argv[]) {
     /* read in the existing periodic table from file; changes
      *  will be in memory until user quits */ 
     Periodic_Table *periodic_table = read_in_periodic_table(filename);
-    
+
     while(keep_going) {
         printf("\n----------------------------------------------\n");
         printf("Please select an option from below:\n");
@@ -26,8 +28,8 @@ int main(int argc, char *argv[]) {
         printf(" 4. Save Edits to File\n");
         printf(" 5. Exit Program\n");
         printf("----------------------------------------------\n");
-
-        scanf("\n");
+        
+        scanf("\n"); /* To Do: Solve Need for This */
         fgets(user_submission, USER_SUBMISSION_SIZE, stdin);
         if (!is_valid_numeric_submission(user_submission)) {
             printf("Please provide a value numeric submission (1-5)\n");
