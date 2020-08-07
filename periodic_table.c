@@ -26,7 +26,6 @@ struct periodic_table {
 /* Reads in periodic table elements from a file and creates
  * a new Periodic Table, containing a reference to an array of Elements */
 Periodic_Table* read_in_periodic_table(char *filename) {
-    
     /* Setup Periodic Table; initialize all elements to have value of NULL */
     Periodic_Table *pt = (Periodic_Table *) malloc(sizeof(Periodic_Table));
     for (int i = 0; i <= MAX_ELEMENTS_IN_PERIODIC_TABLE + 1; i++) {
@@ -45,7 +44,10 @@ Periodic_Table* read_in_periodic_table(char *filename) {
         exit(1);
     }
 
-    while (fgets(line, MAX_VALUE_LENGTH, fp) != NULL) {
+    while (fgets(line, sizeof(line), fp) != NULL) {
+        if (line[strlen(line) - 1] == '\n') 
+            line[strlen(line) - 1] = '\0';
+
         if (!is_empty(line)) {
             char delimiter = ',';
             Element *e = create_element_from_line(line, delimiter);
@@ -138,7 +140,8 @@ void edit_periodic_table(Periodic_Table *pt) {
     
     printf("Choose your option (1-4): ");
     int user_selection; 
-    char *user_submission = (char *) malloc((MAX_VALUE_LENGTH / NUM_ITEMS_IN_ELEMENT) * sizeof(char));
+    char *user_submission = (char *) malloc((MAX_VALUE_LENGTH / 
+                NUM_ITEMS_IN_ELEMENT) * sizeof(char));
     scanf("%d\n", &user_selection);
 
     switch(user_selection) {
@@ -146,17 +149,14 @@ void edit_periodic_table(Periodic_Table *pt) {
             printf("Provide New Name For Element: ");
             scanf("%s\n", user_submission);
             element_ptr->name = user_submission;
-            break;
         case 2:
             printf("Provide New Classification For Element: ");
             scanf("%s\n", user_submission);
             element_ptr->classification = user_submission;
-            break;
         case 3:
             printf("Provide New Properties Description for Element: ");
             scanf("%s\n", user_submission);
             element_ptr->properties = user_submission;
-            break;
     }   
 }
 
