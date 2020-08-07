@@ -5,3 +5,5 @@ int is_empty(char *s);
 
 int is_valid_numeric_submission(char *user_submission);
 
+void clean_trailing(char *line);
+

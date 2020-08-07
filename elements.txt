@@ -1,1 +1,2 @@
-1,Hydrogen,Gaseous,Abundant
+1,Hydrogen,Gaseous,Some
+2,Helium,Gas,Balloons

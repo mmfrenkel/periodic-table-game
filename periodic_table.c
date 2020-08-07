@@ -45,9 +45,6 @@ Periodic_Table* read_in_periodic_table(char *filename) {
     }
 
     while (fgets(line, sizeof(line), fp) != NULL) {
-        if (line[strlen(line) - 1] == '\n') 
-            line[strlen(line) - 1] = '\0';
-
         if (!is_empty(line)) {
             char delimiter = ',';
             Element *e = create_element_from_line(line, delimiter);
@@ -62,6 +59,8 @@ Periodic_Table* read_in_periodic_table(char *filename) {
 /* Creates a new Element in memory, using contents found in a 
  * file line. Returns pointer to the Element. */
 Element * create_element_from_line(char *line, char delimiter){
+    clean_trailing(line);
+
     /* Parse the line to get element information */
     char **split_result = parse_string(line, delimiter, NUM_ITEMS_IN_ELEMENT);
 
@@ -88,7 +87,6 @@ Element * create_new_element(int atomic_number, char *name, char *classification
 
     return e;
 }
-
 
 /* Prints out Specified Element */
 void print_element(Element *el) {
@@ -126,11 +124,8 @@ void edit_periodic_table(Periodic_Table *pt) {
     /* Ask for user input */
     printf("Please provide the atomic number of the element to edit: ");
     int atomic_number;
-    scanf("%d", &atomic_number);
-
+    scanf("%d\n", &atomic_number);
     Element *element_ptr = pt->elements[atomic_number];
-    printf("You selected:\n");
-    print_element(element_ptr);
     
     printf("The following actions are available:\n");
     printf(" (1) Edit Name\n");
@@ -162,11 +157,11 @@ void edit_periodic_table(Periodic_Table *pt) {
 
 /* Function used to add new element to periodic table */
 void add_new_element_to_periodic_table(Periodic_Table *pt) {
-
-    printf("Please submit an atomic number: ");
     char atomic_value[BUFFER_INPUT];
-    scanf("\n"); /* TO DO -- Remove This */
-    fgets(atomic_value, BUFFER_INPUT, stdin);
+    
+    printf("Please submit an atomic number: ");
+    scanf("\n"); /*TO DO: Figure out how to get rid of this */
+    fgets(atomic_value, sizeof(atomic_value), stdin);
     int atomic_number = strtol(atomic_value, NULL, 10);
 
     if (atomic_number < 1 || atomic_number > 188) {
@@ -184,13 +179,16 @@ void add_new_element_to_periodic_table(Periodic_Table *pt) {
     char properties[BUFFER_INPUT];
     
     printf("Please submit a name: ");
-    fgets(name, BUFFER_INPUT, stdin);
-    
+    fgets(name, sizeof(name), stdin);
+    clean_trailing(name);
+
     printf("Please submit a classification: ");
-    fgets(classification, BUFFER_INPUT, stdin);
-    
+    fgets(classification, sizeof(classification), stdin);
+    clean_trailing(classification);
+
     printf("Please submit a description for this element: ");
-    fgets(properties, BUFFER_INPUT, stdin);
+    fgets(properties, sizeof(properties), stdin);
+    clean_trailing(properties);
 
     Element *e = create_new_element(atomic_number, name, classification, properties);
     pt->elements[atomic_number] = e;

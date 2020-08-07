@@ -8,7 +8,6 @@
  * and creates a list of delimited values (pointer to a list of char 
  * pointers */
 char** parse_string(char *string, char delimiter, int max_results) {
-
     char **to_return = malloc(sizeof(char *) * max_results);
     int i = 0;
 
@@ -25,7 +24,6 @@ char** parse_string(char *string, char delimiter, int max_results) {
  
 /* Determines if a string is just whitespace */
 int is_empty(char *s) {
-    printf("%s", s);
     while (*s != '\0') {
         if (!isspace((unsigned char) *s)) {
             return 0;
@@ -46,3 +44,12 @@ int is_valid_numeric_submission(char *user_submission){
     }
     return 1;
 }
+
+/* Clean Trailing '\n' from string when using fgets to 
+ * read information from console */
+void clean_trailing(char *line) {
+    if (line[strlen(line) - 1] == '\n') {
+        line[strlen(line) - 1] = '\0';
+    }
+}
+
