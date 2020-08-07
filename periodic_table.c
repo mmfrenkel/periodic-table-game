@@ -40,7 +40,7 @@ Periodic_Table* read_in_periodic_table(char *filename) {
 
     fp = fopen(filename, "r");
     if (fp == NULL) {
-        printf("Failed to open file; please make sure file exists");
+        printf("Failed to open file; please make sure file exists, then try again.\n");
         free(pt);
         exit(1);
     }
