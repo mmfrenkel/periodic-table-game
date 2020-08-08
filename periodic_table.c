@@ -12,6 +12,7 @@
 
 struct element {
     int atomic_number;
+    char *abbrev;
     char *name;
     char *classification;
     char *properties;
@@ -124,7 +125,7 @@ void edit_periodic_table(Periodic_Table *pt) {
     /* Ask for user input */
     printf("Please provide the atomic number of the element to edit: ");
     int atomic_number;
-    scanf("%d\n", &atomic_number);
+    scanf("%d", &atomic_number);
     Element *element_ptr = pt->elements[atomic_number];
     
     printf("The following actions are available:\n");
@@ -135,23 +136,30 @@ void edit_periodic_table(Periodic_Table *pt) {
     
     printf("Choose your option (1-4): ");
     int user_selection; 
-    char *user_submission = (char *) malloc((MAX_VALUE_LENGTH / 
-                NUM_ITEMS_IN_ELEMENT) * sizeof(char));
-    scanf("%d\n", &user_selection);
+    char *user_submission = (char *) malloc(BUFFER_INPUT * sizeof(char));
+    scanf("%d", &user_selection);
 
     switch(user_selection) {
         case 1:
             printf("Provide New Name For Element: ");
-            scanf("%s\n", user_submission);
+            scanf("\n");
+            fgets(user_submission, sizeof(user_submission), stdin);
+            clean_trailing(user_submission);  
             element_ptr->name = user_submission;
+            break;
         case 2:
             printf("Provide New Classification For Element: ");
-            scanf("%s\n", user_submission);
+            scanf("\n");
+            fgets(user_submission, sizeof(user_submission), stdin);
+            clean_trailing(user_submission);  
             element_ptr->classification = user_submission;
+            break;
         case 3:
             printf("Provide New Properties Description for Element: ");
-            scanf("%s\n", user_submission);
+            fgets(user_submission, sizeof(user_submission), stdin);
+            clean_trailing(user_submission);  
             element_ptr->properties = user_submission;
+            break;
     }   
 }
 
@@ -164,7 +172,7 @@ void add_new_element_to_periodic_table(Periodic_Table *pt) {
     fgets(atomic_value, sizeof(atomic_value), stdin);
     int atomic_number = strtol(atomic_value, NULL, 10);
 
-    if (atomic_number < 1 || atomic_number > 188) {
+    if (atomic_number < 1 || atomic_number > 188) { 
         printf("Sorry, your selection of atomic number is outside the valid range: 0 - 188\n");
         return;
     }
