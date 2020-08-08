@@ -7,8 +7,8 @@
 /* There are only 118 elements in the periodic table */
 #define MAX_ELEMENTS_IN_PERIODIC_TABLE 118
 #define MAX_VALUE_LENGTH 1000
-#define NUM_ITEMS_IN_ELEMENT 4
-#define BUFFER_INPUT 200
+#define NUM_ITEMS_IN_ELEMENT 5
+#define BUFFER_INPUT 199
 
 struct element {
     int atomic_number;
@@ -67,19 +67,24 @@ Element * create_element_from_line(char *line, char delimiter){
 
     /* Create a new element */
     Element *e = create_new_element(atoi(split_result[0]), split_result[1], 
-                split_result[2], split_result[3]);
+                split_result[2], split_result[3], split_result[4]);
     print_element(e);
     return e;
 }
 
 /* Create new Element in Heap memory; Address of new Element returned */
-Element * create_new_element(int atomic_number, char *name, char *classification, char *properties) {
+Element * create_new_element(int atomic_number, char* abbrev, 
+        char *name, char *classification, char *properties) {
+    
     Element *e = (Element *) malloc(sizeof(Element));
     e->atomic_number = atomic_number;
     
     e->name = (char *) malloc(sizeof(char) * strlen(name));
     strcpy(e->name, name);
 
+    e->abbrev = (char *) malloc(sizeof(char) * strlen(abbrev));
+    strcpy(e->abbrev, abbrev;
+    
     e->classification = (char *) malloc(sizeof(char) * strlen(classification));
     strcpy(e->classification, classification);
 
@@ -91,7 +96,7 @@ Element * create_new_element(int atomic_number, char *name, char *classification
 
 /* Prints out Specified Element */
 void print_element(Element *el) {
-    printf("\n%s\n", el->name);
+    printf("\n%s (%s)\n", el->name, el->abbrev);
     printf("---------------\n");
     printf("Atomic Number: %d\n", el->atomic_number);
     printf("Classification: %s\n", el->classification);
@@ -130,6 +135,7 @@ void edit_periodic_table(Periodic_Table *pt) {
     
     printf("The following actions are available:\n");
     printf(" (1) Edit Name\n");
+    printf(" (2) Edit Abbreviation\n");
     printf(" (2) Edit Classification\n");
     printf(" (3) Edit Properties\n");
     printf(" (4) Continue without Editing\n");
@@ -148,15 +154,22 @@ void edit_periodic_table(Periodic_Table *pt) {
             element_ptr->name = user_submission;
             break;
         case 2:
+            printf("Provide New Abbreviation: "); 
+            scanf("\n");
+            fgets(user_submission, sizeof(user_submission), stdin);
+            clean_trailing(user_submission);  
+            element_ptr->abbrev = user_submission;
+            break;
+        case 3:
             printf("Provide New Classification For Element: ");
             scanf("\n");
             fgets(user_submission, sizeof(user_submission), stdin);
             clean_trailing(user_submission);  
             element_ptr->classification = user_submission;
             break;
-        case 3:
+        case 4: 
             printf("Provide New Properties Description for Element: ");
-            fgets(user_submission, sizeof(user_submission), stdin);
+            fgets(user_submission, sizeof(user_submission), stdin); 
             clean_trailing(user_submission);  
             element_ptr->properties = user_submission;
             break;
@@ -183,12 +196,16 @@ void add_new_element_to_periodic_table(Periodic_Table *pt) {
     }
     
     char name[BUFFER_INPUT]; 
+    char abbrev[BUFFER_INPUT]; 
     char classification[BUFFER_INPUT]; 
     char properties[BUFFER_INPUT];
     
-    printf("Please submit a name: ");
-    fgets(name, sizeof(name), stdin);
+    printf("Please submit a name: "); 
+    fgets(name, sizeof(name), stdin); 
     clean_trailing(name);
+
+    printf("Please submit an abbreviation: ");
+    fgets(abbrev, sizeof(abbrev), stdin);
 
     printf("Please submit a classification: ");
     fgets(classification, sizeof(classification), stdin);
@@ -198,7 +215,7 @@ void add_new_element_to_periodic_table(Periodic_Table *pt) {
     fgets(properties, sizeof(properties), stdin);
     clean_trailing(properties);
 
-    Element *e = create_new_element(atomic_number, name, classification, properties);
+    Element *e = create_new_element(atomic_number, stdin,  name, classification, properties);
     pt->elements[atomic_number] = e;
 }
 
@@ -211,7 +228,8 @@ void save_periodic_table_to_file(Periodic_Table *pt, char *filename){
     for (i = 1; i < MAX_ELEMENTS_IN_PERIODIC_TABLE + 1; i++) {
         if (elements[i] != NULL) {
             Element *e = elements[i];
-            fprintf(fp, "%d,%s,%s,%s\n", e->atomic_number, e->name, e->classification, e->properties);
+            fprintf(fp, "%d,%s,%s,%s,%s\n", e->atomic_number, e->abbrev, 
+                    e->name, e->classification, e->properties);
         }
     }
     fclose(fp);

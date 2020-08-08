@@ -7,7 +7,7 @@ Periodic_Table * read_in_periodic_table(char *filename);
 
 Element * create_element_from_line(char *line, char delimiter);
 
-Element * create_new_element(int atomic_number, char *name, char *classification, char *properties);
+Element * create_new_element(int atomic_number, char *abbrev, char *name, char *classification, char *properties);
 
 void print_element(Element *el);
 
