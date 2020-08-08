@@ -78,12 +78,12 @@ Element * create_new_element(int atomic_number, char* abbrev,
     
     Element *e = (Element *) malloc(sizeof(Element));
     e->atomic_number = atomic_number;
-    
+   
     e->name = (char *) malloc(sizeof(char) * strlen(name));
     strcpy(e->name, name);
 
     e->abbrev = (char *) malloc(sizeof(char) * strlen(abbrev));
-    strcpy(e->abbrev, abbrev;
+    strcpy(e->abbrev, abbrev);
     
     e->classification = (char *) malloc(sizeof(char) * strlen(classification));
     strcpy(e->classification, classification);
@@ -228,8 +228,8 @@ void save_periodic_table_to_file(Periodic_Table *pt, char *filename){
     for (i = 1; i < MAX_ELEMENTS_IN_PERIODIC_TABLE + 1; i++) {
         if (elements[i] != NULL) {
             Element *e = elements[i];
-            fprintf(fp, "%d,%s,%s,%s,%s\n", e->atomic_number, e->abbrev, 
-                    e->name, e->classification, e->properties);
+            fprintf(fp, "%d,%s,%s,%s,%s\n", e->atomic_number, e->name, 
+                    e->abbrev, e->classification, e->properties);
         }
     }
     fclose(fp);
