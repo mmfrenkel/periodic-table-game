@@ -95,7 +95,7 @@ Element * create_new_element(int atomic_number, char* name,
 
 /* Prints out Specified Element */
 void print_element(Element *el) {
-    printf("\n%s (%s)\n", el->name, el->abbrev);
+    printf("\n%s [%s]\n", el->name, el->abbrev);
     printf("---------------\n");
     printf("Atomic Number: %d\n", el->atomic_number);
     printf("Classification: %s\n", el->classification);

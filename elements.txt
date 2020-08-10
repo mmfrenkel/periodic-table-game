@@ -3,4 +3,4 @@
 3,Lithim,Li,Alkali-Metal,Salt
 5,Carbon,C,Solid,Life
 11,Sodium,Na,Alkali-Metal,Yum!
-19,Potassium,K,Alkali-Metal,Oceanic
+19,Potassium,K,Spaces ,Oceanic
