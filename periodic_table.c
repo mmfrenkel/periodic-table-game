@@ -73,8 +73,8 @@ Element * create_element_from_line(char *line, char delimiter){
 }
 
 /* Create new Element in Heap memory; Address of new Element returned */
-Element * create_new_element(int atomic_number, char* abbrev, 
-        char *name, char *classification, char *properties) {
+Element * create_new_element(int atomic_number, char* name, 
+        char *abbrev, char *classification, char *properties) {
     
     Element *e = (Element *) malloc(sizeof(Element));
     e->atomic_number = atomic_number;
@@ -90,7 +90,6 @@ Element * create_new_element(int atomic_number, char* abbrev,
 
     e->properties = (char *) malloc(sizeof(char) * strlen(properties));
     strcpy(e->properties, properties);
-
     return e;
 }
 
@@ -136,9 +135,9 @@ void edit_periodic_table(Periodic_Table *pt) {
     printf("The following actions are available:\n");
     printf(" (1) Edit Name\n");
     printf(" (2) Edit Abbreviation\n");
-    printf(" (2) Edit Classification\n");
-    printf(" (3) Edit Properties\n");
-    printf(" (4) Continue without Editing\n");
+    printf(" (3) Edit Classification\n");
+    printf(" (4) Edit Properties\n");
+    printf(" (5) Continue without Editing\n");
     
     printf("Choose your option (1-4): ");
     int user_selection; 
@@ -169,9 +168,13 @@ void edit_periodic_table(Periodic_Table *pt) {
             break;
         case 4: 
             printf("Provide New Properties Description for Element: ");
+            scanf("\n");
             fgets(user_submission, sizeof(user_submission), stdin); 
             clean_trailing(user_submission);  
             element_ptr->properties = user_submission;
+            break;
+        case 5:
+            printf("Not changing anything now\n");
             break;
     }   
 }
@@ -183,6 +186,7 @@ void add_new_element_to_periodic_table(Periodic_Table *pt) {
     printf("Please submit an atomic number: ");
     scanf("\n"); /*TO DO: Figure out how to get rid of this */
     fgets(atomic_value, sizeof(atomic_value), stdin);
+    clean_trailing(atomic_value);
     int atomic_number = strtol(atomic_value, NULL, 10);
 
     if (atomic_number < 1 || atomic_number > 188) { 
@@ -206,6 +210,7 @@ void add_new_element_to_periodic_table(Periodic_Table *pt) {
 
     printf("Please submit an abbreviation: ");
     fgets(abbrev, sizeof(abbrev), stdin);
+    clean_trailing(abbrev);
 
     printf("Please submit a classification: ");
     fgets(classification, sizeof(classification), stdin);
@@ -215,7 +220,7 @@ void add_new_element_to_periodic_table(Periodic_Table *pt) {
     fgets(properties, sizeof(properties), stdin);
     clean_trailing(properties);
 
-    Element *e = create_new_element(atomic_number, stdin,  name, classification, properties);
+    Element *e = create_new_element(atomic_number, name, abbrev, classification, properties);
     pt->elements[atomic_number] = e;
 }
 

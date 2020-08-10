@@ -1,3 +1,6 @@
-1,H,Hydrogen,Gas,Abundant
-2,He,Helium,Alien,Balloon
-5,C,Carbon,Solid,Life
+1,Hydrogen,H,Gas,Sun
+2,Helium,He,Gas,Balloons
+3,Lithim,Li,Alkali-Metal,Salt
+5,Carbon,C,Solid,Life
+11,Sodium,Na,Alkali-Metal,Yum!
+19,Potassium,K,Alkali-Metal,Oceanic
