@@ -2,4 +2,7 @@
 *.swp
 *.dSYM
 *.o
+*.cproject
+.project
+.settings/
 

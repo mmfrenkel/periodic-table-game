@@ -1,6 +1,10 @@
+# Makefile for periodic-table-game
+
 CC = gcc
-CFLAGS = -g -Wall
+CFLAGS = -g -Wall -std=c99
 LDFLAGS = -g 
+
+all: periodic_table_game
 
 periodic_table_game: helper_functions.o periodic_table.o
 
